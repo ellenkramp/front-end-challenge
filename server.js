@@ -1,10 +1,21 @@
-var http = require('http');
-var fs = require('fs');
+const http = require('http');
+const fs = require('fs');
+const cors = require('cors')
+const express = require('express');
+const app = express();
 
-http.createServer(function(req, res) {
+app.use(cors());
+
+app.get('/', (req, res)  => {
   res.writeHead(200, { 'Content-Type': 'application/json' });
-  var payload = fs.readFileSync('./data_set.json', 'utf8');
+  const payload = fs.readFileSync('./data_set.json', 'utf8');
   res.end(payload);
-}).listen(1337);
+});
+
+app.get('/', (req, res) => {
+  res.sendFile(__dirname + '/index.html');
+ });
+
+app.listen(1337);
 
 console.log('Server started...');
